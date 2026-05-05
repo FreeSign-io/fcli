@@ -74,6 +74,9 @@ release:
     name: fcli
   draft: false
   prerelease: auto
+  # Allow GitHub Actions to re-run after a local release without 422-ing on
+  # already-uploaded assets. The local + CI runs become idempotent.
+  replace_existing_artifacts: true
   name_template: 'fcli {{ .Version }}'
   header: |
     ## fcli {{ .Version }}
