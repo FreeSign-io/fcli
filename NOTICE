@@ -1,0 +1,20 @@
+fcli — FreeSign command-line tool
+Copyright (C) 2026 FreeSign-io contributors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+----------------------------------------------------------------------
+
+fcli is the official CLI for FreeSign (https://github.com/FreeSign-io/freesign),
+a free, open-source eSignature platform.
+
+FreeSign is a fork of Documenso (https://github.com/documenso/documenso),
+released under the same AGPL-3.0 license. We are deeply grateful to the
+Documenso team for their work, which made FreeSign and this CLI possible.
+
+This CLI talks to the FreeSign HTTP API (and any compatible Documenso
+deployment). It does not embed or redistribute any Documenso source code;
+it is a separate clean-room client implementation in Go.

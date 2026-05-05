@@ -1,0 +1,103 @@
+version: 2
+
+project_name: fcli
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: fcli
+    main: .
+    binary: fcli
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X github.com/FreeSign-io/fcli/internal/version.Version={{ .Version }}
+      - -X github.com/FreeSign-io/fcli/internal/version.Commit={{ .ShortCommit }}
+      - -X github.com/FreeSign-io/fcli/internal/version.Date={{ .Date }}
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+archives:
+  - id: default
+    formats:
+      - tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    files:
+      - LICENSE
+      - NOTICE
+      - README.md
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  version_template: '{{ incpatch .Version }}-next'
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - 'merge conflict'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+
+release:
+  github:
+    owner: FreeSign-io
+    name: fcli
+  draft: false
+  prerelease: auto
+  name_template: 'fcli {{ .Version }}'
+  header: |
+    ## fcli {{ .Version }}
+
+    Install via Homebrew:
+    ```
+    brew tap FreeSign-io/fcli
+    brew install fcli
+    ```
+
+    Or download a binary for your platform below.
+
+brews:
+  - name: fcli
+    repository:
+      owner: FreeSign-io
+      name: homebrew-fcli
+      token: '{{ .Env.HOMEBREW_TAP_TOKEN }}'
+    homepage: 'https://github.com/FreeSign-io/fcli'
+    description: 'Command-line tool for FreeSign — open-source eSignature.'
+    license: 'AGPL-3.0-or-later'
+    directory: Formula
+    install: |
+      bin.install "fcli"
+      generate_completions_from_executable(bin/"fcli", "completion")
+    test: |
+      assert_match "fcli #{version}", shell_output("#{bin}/fcli version")

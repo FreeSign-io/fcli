@@ -1,0 +1,24 @@
+fcli/
+
+# Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Build
+/dist/
+/bin/
+/fcli
+/fcli-*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# goreleaser
+dist/
