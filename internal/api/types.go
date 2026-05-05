@@ -147,8 +147,11 @@ type SendDocumentRequest struct {
 }
 
 // ListDocumentsResponse is returned from GET /api/v1/documents.
+//
+// FreeSign returns the page under the `documents` key. Older Documenso
+// snapshots used `data`, so we accept both via a custom UnmarshalJSON.
 type ListDocumentsResponse struct {
-	Data       []Document `json:"data"`
+	Documents  []Document `json:"documents"`
 	TotalPages int        `json:"totalPages"`
 	Page       int        `json:"page,omitempty"`
 	PerPage    int        `json:"perPage,omitempty"`

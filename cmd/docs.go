@@ -197,7 +197,7 @@ func runDocsList(cmd *cobra.Command, _ []string) error {
 		if err != nil {
 			return err
 		}
-		for _, d := range resp.Data {
+		for _, d := range resp.Documents {
 			if wanted == "" || string(d.Status) == wanted {
 				all = append(all, d)
 			}
